@@ -1,13 +1,10 @@
 const axios = require("axios");
 
 module.exports = async (req, res) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://karolfaltyn.github.io/solar-sense/"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "https://karolfaltyn.github.io");
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "https://karolfaltyn.github.io/solar-sense/"
+    "https://karolfaltyn.github.io"
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Credentials", "true");
