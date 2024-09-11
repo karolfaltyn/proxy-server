@@ -1,44 +1,34 @@
-const express = require("express");
 const axios = require("axios");
 
-// const app = express();
-// const port = 3000;
-
-app.use(express.json());
-
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://karolfaltyn.github.io/solar-sense"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+module.exports = async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "*");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 
-app.options("*", (req, res) => {
-  res.sendStatus(200);
-});
-
-app.post("/api", async (req, res) => {
-  const { url } = req.body;
-
-  if (!url) {
-    return res.status(400).json({ error: "No URL provided" });
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
   }
 
-  try {
-    const response = await axios.get(url);
-    res.json(response.data);
-  } catch (error) {
-    const errMsg = error.response
-      ? error.response.data
-      : "An unknown error occurred";
-    res.status(500).json({ error: errMsg });
-  }
-});
+  if (req.method === "POST") {
+    const { url } = req.body;
 
-// app.listen(port, () => {
-//   console.log(`Server running on http://localhost:${port}`);
-// });
+    if (!url) {
+      res.status(400).json({ error: "No URL provided" });
+      return;
+    }
+
+    try {
+      const response = await axios.get(url);
+      res.json(response.data);
+    } catch (error) {
+      const errMsg = error.response
+        ? error.response.data
+        : "An unknown error occurred";
+      res.status(500).json({ error: errMsg });
+    }
+  } else {
+    res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+  }
+};
