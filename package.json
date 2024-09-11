@@ -1,0 +1,12 @@
+{
+    "name": "proxy-server",
+    "version": "1.0.0",
+    "main": "api/proxy.js",
+    "scripts": {
+        "dev": "vercel dev"
+    },
+    "dependencies": {
+        "axios": "^0.21.4",
+        "express": "^4.20.0"
+    }
+}
